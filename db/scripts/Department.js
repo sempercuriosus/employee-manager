@@ -33,8 +33,10 @@ class Department {
         SELECT id 
             , name
         FROM department
+        ORDER BY id
         ;
         `;
+
         return this.connection.promise().query(query);
 
     }; //  [ end : view ]
@@ -42,19 +44,40 @@ class Department {
 
     /**
     * @name add
-    * @classdesc Adds a new Department to the list of available options
-    * @param name
+    * @classdesc Insert new Department to the list of available options.
+    * toAdd value be unique
+    * @param toAdd
     * @returns 
     */
-    add (name) {
+    add (toAdd) {
         // rather than doing an IF EXISTS on each of these, can I ensure the db col is unique?
         // okay well apparently there is a UNIQUE keyword one can use...
         const query = `
         INSERT INTO department
-        
+        SET name = ?
         ;
         `;
-        return this.connection.promise().query(query);
+
+        return this.connection.promise().query(query, toAdd);
+    };
+
+
+    /**
+    * @name remove
+    * @classdesc Removes a function from the database, by ID only
+    * @param {int} toRemove
+    * @returns 
+    */
+    remove (toRemove) {
+        // long desc
+        const query = `
+        DELETE FROM department
+        WHERE id = ?
+        ;
+        `;
+
+        return this.connection.promise().query(query, toRemove);
+
     };
 
 };
