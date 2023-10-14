@@ -8,9 +8,7 @@ const logoText = "The Office Manager";
 const logoDescription = "Manage your office personel from the command line, simply.";
 
 // db query
-const Select = require("./db/scripts/selects");
-const Insert = require("./db/scripts/inserts");
-const Update = require("./db/scripts/updates");
+const Department = require("./db/scripts/Department");
 
 init();
 
@@ -31,7 +29,6 @@ function init () {
  * @param {string} logoText is the text that you want to generate.
 */
 function displayLogo (logoText) {
-    console.info("[ displayLogo ] : called");
     const renderedLogo = logo({ name: logoText, description: logoDescription, font: "Soft", borderColor: "bold-black", logoColor: "blue", textColor: "white" }).render();
     console.log(renderedLogo);
 }; //  [ end : displayLogo ]
@@ -42,7 +39,6 @@ function displayLogo (logoText) {
  * @name mainMenu
 */
 function mainMenu () {
-    console.info("[ mainMenu ] : called");
     inq.prompt([
         {
             type: "list"
@@ -84,8 +80,12 @@ function mainMenu () {
         const selectedOption = res.menuSelection;
 
         if (selectedOption === "view_departments") {
-            console.info("Getting Departments...");
-            Select.viewDepartments();
+            console.info("Getting the Departments...");
+            Department.view()
+                .then(([ data ]) => {
+                    let departments = data;
+                    console.log("departments", departments);
+                });
         }
         else if (selectedOption === "view_roles") {
 
@@ -107,7 +107,10 @@ function mainMenu () {
             // accounting for the option not being found with this.
             console.error("The option selected does not have an action.");
         }
-    });
+    })
+        .catch((error) => {
+            console.error(error);
+        });
 }; //  [ end : mainMenu ]
 
 
