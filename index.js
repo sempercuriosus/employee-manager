@@ -1,6 +1,24 @@
+
+// add inquirer
+const inq = require("inquirer");
+
+// logo details
 const logo = require("asciiart-logo");
-const logoText = "Office Management Software";
-const logoDescription = "Manage your employees from the command line, simply.";
+const logoText = "The Office Manager";
+const logoDescription = "Manage your office personel from the command line, simply.";
+
+init();
+
+
+/**
+ * INITIALIZE THE APPLICATION 
+ * @name init
+*/
+function init () {
+    displayLogo(logoText);
+    mainMenu();
+
+}; //  [ end : init ]
 
 
 /**
@@ -15,4 +33,42 @@ function displayLogo (logoText) {
 }; //  [ end : displayLogo ]
 
 
-displayLogo(logoText);
+/**
+ * Starts the application, displying the menu options to the user such that they can complete the actions
+ * @name mainMenu
+*/
+function mainMenu () {
+    console.info("[ mainMenu ] : called");
+    inq.prompt([
+        {
+            type: "list"
+            , name: "menuSelection"
+            , message: "MENU - select from the following options"
+            , choices: [
+                {
+                    name: "View ALL Departments"
+                    , value: ""
+                }
+                , {
+                    name: "View ALL Roles"
+                    , value: ""
+                }, {
+                    name: "View ALL Employees"
+                    , value: ""
+                }, {
+                    name: "ADD Department"
+                    , value: ""
+                }, {
+                    name: "ADD Role"
+                    , value: ""
+                }, {
+                    name: "ADD Employee"
+                    , value: ""
+                }, {
+                    name: "UPDATE Employee Role"
+                    , value: ""
+                }
+            ]
+        }
+    ]);
+}; //  [ end : mainMenu ]
