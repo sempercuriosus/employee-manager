@@ -10,6 +10,7 @@ const logoDescription = "Manage your office personel from the command line, simp
 // db query
 const Department = require("./db/scripts/Department");
 const Role = require("./db/scripts/Role");
+const Employee = require("./db/scripts/Employee");
 
 init();
 
@@ -48,15 +49,15 @@ function loadMainMenu () {
                 , message: "MENU - select from the following options"
                 , choices: [
                     {
-                        name: "View - Employees"
+                        name: "VIEW - Employees"
                         , value: "view_employees"
                     }
                     , {
-                        name: "View - Roles"
+                        name: "VIEW - Roles"
                         , value: "view_roles"
                     }
                     , {
-                        name: "View - Departments"
+                        name: "VIEW - Departments"
                         , value: "view_departments"
                     }
                     , {
@@ -87,7 +88,7 @@ function loadMainMenu () {
                     //     , value: "delete_employee"
                     // }
                     , {
-                        name: "exit"
+                        name: "EXIT - Program"
                         , value: "exit"
                     }
                 ]
@@ -98,7 +99,7 @@ function loadMainMenu () {
             const selectedOption = res.menuSelection;
 
             if (selectedOption === "view_employees") {
-
+                viewEmployees();
             }
             else if (selectedOption === "view_roles") {
                 viewRoles();
@@ -107,7 +108,7 @@ function loadMainMenu () {
                 viewDepartments();
             }
             else if (selectedOption === "create_employee") {
-
+                addEmployee();
             }
             else if (selectedOption === "create_department") {
                 addDepartment();
@@ -240,7 +241,7 @@ function addRole () {
             let departments = resData[ 0 ];
             console.log(departments);
             // get a map of the existing departments to select from
-            const list = departments.map(({ id, name: name }) => ({
+            const list = departments.map(({ id, name }) => ({
                 name: name
                 , value: id
             }));
@@ -263,7 +264,7 @@ function addRole () {
                 ])
                 .then(roleData => {
                     let { name, salary, department } = roleData;
-                    console.log("name", name, "salary", salary, "department", department);
+
                     Role.add(name, salary, department)
                         .then(() => {
                             console.info("Added the Role: " + name);
@@ -282,7 +283,129 @@ function addRole () {
 // #endregion Roles
 
 
+// #region Employee
+//
+/*
+ * 
+ * Employee Related Functions
+ * 
+*/
 
+
+
+/**
+ * @name viewEmployees
+ * @description Shows a formatted table view of the current Employees
+*/
+function viewEmployees () {
+    Employee.view()
+        // destructure the results
+        .then(([ resData ]) => {
+
+            const employees = resData;
+            console.log("");
+            console.log("EMPLOYEES");
+            console.table(employees);
+        })
+        .then(() => loadMainMenu());
+
+}; //  [ end : viewEmployees ]
+
+
+/**
+ * @name addEmployee
+ * @description Asks for the Employee's information
+ * First Name, 
+ * Last Name, 
+ * Role, 
+ * and Manager
+ * then attempts to update the Database, 
+ * and confirms the Employee was added.
+*/
+function addEmployee () {
+    // get the new information on the employee
+    // first and last name
+    inq
+        .prompt([ {
+            "name": "first"
+            , "message": "Provide the Employee's First Name"
+        },
+        {
+            "name": "last"
+            , "message": "Provide the Employee's Last Name"
+        }
+        ])
+        .then(resData => {
+            const firstName = resData.first;
+            const lastName = resData.last;
+
+            // role of employee
+            // get the list of roles
+            Role.view()
+                .then(([ resData ]) => {
+                    let roles = resData;
+                    const roleList = roles.map(({ id, title }) => ({
+                        "name": title
+                        , "value": id
+                    }));
+                    // set the role for the new employee
+                    inq
+                        .prompt({
+                            "name": "role"
+                            , "message": "Provide the Employee's Role"
+                            , "type": "list"
+                            , "choices": roleList
+                        })
+                        // add the manager
+                        // assuming that anyone can manage any other employee and that some will not require a manager
+                        .then((resData) => {
+                            const roleId = resData.role;
+
+                            // get managers
+                            Employee.listManagers()
+                                .then(([ resData ]) => {
+                                    let employees = resData;
+                                    const managerList = employees.map(({ id, FirstName, LastName, Role }) => ({
+                                        "name": FirstName + " " + LastName + " - " + Role
+                                        , "value": id
+                                    }));
+
+                                    // adding a record allowing no one to be selected as the manager
+                                    managerList.unshift({ name: "None", value: null });
+
+                                    // set manager for employee
+                                    inq
+                                        .prompt([
+                                            {
+                                                "name": "manager"
+                                                , "message": "Provide to whom the Employee will report"
+                                                , "type": "list"
+                                                , "choices": managerList
+
+                                            }
+                                        ])
+                                        // destructure the employee information and get ready to update the db with it
+                                        .then((resData) => {
+                                            const managerID = resData.manager;
+
+                                            Employee.add(firstName, lastName, roleId, managerID);
+                                        })
+                                        .then(() => {
+                                            console.info("Added " + firstName + " " + lastName + " as an Employee");
+                                            console.log("");
+                                        })
+                                        .then(() => loadMainMenu());
+
+                                    // Employee.add();
+                                });// employee list end
+                        });
+                });// role end
+        });
+}; //  [ end : addEmployee ]
+
+
+//
+// #endregion Employee
 
 
 
