@@ -232,32 +232,46 @@ function viewRoles () {
  * @description Asks for the new Role's name, attempts to update the database, and the loads the new changes
 */
 function addRole () {
-    inq
-        // ask role name
-        .prompt([ {
-            name: "name"
-            , message: "Provide the new Role Name: "
-        }
-            , {
-            name: "salary"
-            , message: "Provide the new Role's Salary: "
-        }
-            , {
-            name: "department"
-            , message: "Provide the new Role's Department"
-        }
-        ])
-        .then(roleData => {
-            let { name, salary, department } = roleData;
-            console.log("name", name, "salary", salary, "department", department);
-            Role.add(name, salary, department)
-                .then(() => {
-                    console.info("Added the Role: " + name);
-                    console.info("With the Salary: " + salary);
-                    console.info("To the Department: " + department);
-                })
-                .then(() => loadMainMenu());
+    Role.view()
+        .then((resData) => {
+            // get a map of the existing departments to select from
+            let departments = resData[ 0 ];
+            console.log("depts", departments);
+            const list = departments.map(({ id, title }) => ({
+                name: id + " " + title
+                , value: id
+            }));
+            inq
+                // ask role name
+                .prompt([ {
+                    name: "name"
+                    , message: "Provide the new Role Name: "
+                }
+                    , {
+                    name: "salary"
+                    , message: "Provide the new Role's Salary: "
+                }
+                    , {
+                    name: "department"
+                    , type: "list"
+                    , message: "Provide the new Role's Department"
+                    , choices: list
+                }
+                ])
+                .then(roleData => {
+                    let { name, salary, department } = roleData;
+                    console.log("name", name, "salary", salary, "department", department);
+                    Role.add(name, salary, department)
+                        .then(() => {
+                            console.info("Added the Role: " + name);
+                            console.info("With the Salary: " + salary);
+                            console.info("To the Department: " + department);
+                        })
+                        .then(() => loadMainMenu());
+                });
         });
+
+
 
 }; //  [ end : addRole ]
 
