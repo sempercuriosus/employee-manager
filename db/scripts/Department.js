@@ -41,11 +41,22 @@ class Department {
 
 
     /**
-     * @name 
-     */
-    viewRoles () {
-
+    * @name add
+    * @classdesc Adds a new Department to the list of available options
+    * @param name
+    * @returns 
+    */
+    add (name) {
+        // rather than doing an IF EXISTS on each of these, can I ensure the db col is unique?
+        // okay well apparently there is a UNIQUE keyword one can use...
+        const query = `
+        INSERT INTO department
+        
+        ;
+        `;
+        return this.connection.promise().query(query);
     };
+
 };
 
 
