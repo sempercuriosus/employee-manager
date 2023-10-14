@@ -7,8 +7,13 @@ const logo = require("asciiart-logo");
 const logoText = "The Office Manager";
 const logoDescription = "Manage your office personel from the command line, simply.";
 
-init();
+// db query
+const db = require("./db");
+const select = require("./db/scripts/selects");
+const insert = require("./db/scripts/inserts");
+const update = require("./db/scripts/updates");
 
+init();
 
 /**
  * INITIALIZE THE APPLICATION 
@@ -52,26 +57,57 @@ function mainMenu () {
                 , {
                     name: "View ALL Roles"
                     , value: "view_roles"
-                }, {
+                }
+                , {
                     name: "View ALL Employees"
                     , value: "view_employees"
-                }, {
+                }
+                , {
                     name: "ADD Department"
                     , value: "create_department"
-                }, {
+                }
+                , {
                     name: "ADD Role"
                     , value: "create_role"
-                }, {
+                }
+                , {
                     name: "ADD Employee"
                     , value: "create_employee"
-                }, {
+                }
+                , {
                     name: "UPDATE Employee Role"
                     , value: "update_employee_role"
                 }
             ]
         }
     ]).then(res => {
+        // Takes the user-selected value and translates this into an action
         const selectedOption = res.menuSelection;
-        console.log("You selected: ", selectedOption);
+
+        if (selectedOption === "view_departments") {
+            viewDepartments();
+        }
+        else if (selectedOption === "view_roles") {
+
+        }
+        else if (selectedOption === "create_department") {
+
+        }
+        else if (selectedOption === "create_role") {
+
+        }
+        else if (selectedOption === "create_employee") {
+
+        }
+
+        else if (selectedOption === "update_employee_role") {
+
+        }
+        else {
+            // accounting for the option not being found with this.
+            console.error("The option selected does not have an action.");
+        }
     });
 }; //  [ end : mainMenu ]
+
+
