@@ -9,7 +9,7 @@ const logoDescription = "Manage your office personel from the command line, simp
 
 // db query
 const Department = require("./db/scripts/Department");
-const { createTestScheduler } = require("jest");
+const Role = require("./db/scripts/Role");
 
 init();
 
@@ -101,7 +101,7 @@ function loadMainMenu () {
 
             }
             else if (selectedOption === "view_roles") {
-
+                viewRoles();
             }
             else if (selectedOption === "view_departments") {
                 viewDepartments();
@@ -141,8 +141,11 @@ function loadMainMenu () {
 // #region Departments
 //
 /*
- * Department Specific actions
+ * Department Specific Functions
 */
+
+
+
 
 /**
  * @name viewDepartments 
@@ -153,7 +156,6 @@ function viewDepartments () {
         .then(([ resData ]) => {
             let departments = resData;
             console.log("");
-            console.log("Department List");
             console.table(departments);
         })
         .then(() => loadMainMenu());
@@ -195,6 +197,37 @@ function addDepartment () {
 
 //
 // #endregion Departments
+
+
+// #region Roles
+//
+/*
+ * Role Specific Functions 
+*/
+
+
+
+
+/**
+ * @name viewRoles
+ * @param {} 
+ * @returns Role Table Values
+*/
+let viewRoles = () => {
+    Role.view()
+        .then(([ resData ]) => {
+            let roles = resData;
+            console.log("");
+            console.table(roles);
+        })
+        .then(() => loadMainMenu());
+
+}; //  [ end : viewRoles ]
+
+//
+// #endregion Roles
+
+
 
 
 // Exit Application
