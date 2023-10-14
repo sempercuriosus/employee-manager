@@ -2,19 +2,6 @@
 -- Not blindly droping the db that is irresponsible to do.
 -- 
 
-/*
-   +-------------------+        +--------------------+        +----------------+
-   |    Department     |        |      Role          |        |    Employee    |
-   +-------------------+        +--------------------+        +----------------+
-   | id (PK)           |        | id (PK)            |        | id (PK)        |
-   | name              |        | title              |        | first_name     |
-   |                   |        | salary             |        | last_name      |
-   |                   |--------| department_id (FK) |--------| role_id (FK)   |
-   |                   |        |                    |        | manager_id (FK)|
-   +-------------------+        +--------------------+        +----------------+
-
-*/
-
 -- Create DB
 --
 -- Check if the database 'employees' exists
