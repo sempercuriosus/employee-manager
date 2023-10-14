@@ -9,7 +9,7 @@ const logoDescription = "Manage your office personel from the command line, simp
 
 // db query
 const Department = require("./db/scripts/Department");
-const { createTestScheduler } = require("jest");
+const Role = require("./db/scripts/Role");
 
 init();
 
@@ -101,21 +101,20 @@ function loadMainMenu () {
 
             }
             else if (selectedOption === "view_roles") {
-
+                viewRoles();
             }
             else if (selectedOption === "view_departments") {
                 viewDepartments();
+            }
+            else if (selectedOption === "create_employee") {
+
             }
             else if (selectedOption === "create_department") {
                 addDepartment();
             }
             else if (selectedOption === "create_role") {
-
+                addRole();
             }
-            else if (selectedOption === "create_employee") {
-
-            }
-
             else if (selectedOption === "update_employee_role") {
 
             }
@@ -141,8 +140,11 @@ function loadMainMenu () {
 // #region Departments
 //
 /*
- * Department Specific actions
+ * Department Specific Functions
 */
+
+
+
 
 /**
  * @name viewDepartments 
@@ -153,7 +155,7 @@ function viewDepartments () {
         .then(([ resData ]) => {
             let departments = resData;
             console.log("");
-            console.log("Department List");
+            console.log("DEPARTMENTS");
             console.table(departments);
         })
         .then(() => loadMainMenu());
@@ -163,7 +165,6 @@ function viewDepartments () {
 /**
  * @name addDepartment
  * @description Asks for the new Department's name, attempts to update the database, and the loads the new changes
- * @returns Department Table With Updated Value
 */
 function addDepartment () {
     inq
@@ -175,8 +176,8 @@ function addDepartment () {
             }
         ])
         // insert
-        .then(res => {
-            let name = res.name;
+        .then(departmentName => {
+            let name = departmentName.name;
             console.log(name);
             Department.add(name)
                 // confirmation message
@@ -195,6 +196,94 @@ function addDepartment () {
 
 //
 // #endregion Departments
+
+
+// #region Roles
+//
+/*
+ * Role Specific Functions 
+*/
+
+
+
+
+
+
+
+/**
+ * @name viewRoles
+ * @param {} 
+ * @returns Role Table Values
+*/
+function viewRoles () {
+    Role.view()
+        .then(([ resData ]) => {
+            let roles = resData;
+            console.log("");
+            console.log("ROLES");
+            console.table(roles);
+        })
+        .then(() => loadMainMenu());
+
+}; //  [ end : viewRoles ]
+
+
+
+/**
+ * @name addRole
+ * @description Asks for the new Role's name, attempts to update the database, and the loads the new changes
+*/
+function addRole () {
+    Department.view()
+        .then((resData) => {
+            // this is here instead of destructuring, just to remind me this is a thing too.
+            let departments = resData[ 0 ];
+            console.log(departments);
+            // get a map of the existing departments to select from
+            const list = departments.map(({ id, name: name }) => ({
+                name: name
+                , value: id
+            }));
+            inq
+                // ask role name
+                .prompt([ {
+                    name: "name"
+                    , message: "Provide the new Role Name: "
+                }
+                    , {
+                    name: "salary"
+                    , message: "Provide the new Role's Salary: "
+                }
+                    , {
+                    name: "department"
+                    , type: "list"
+                    , message: "Provide the new Role's Department"
+                    , choices: list
+                }
+                ])
+                .then(roleData => {
+                    let { name, salary, department } = roleData;
+                    console.log("name", name, "salary", salary, "department", department);
+                    Role.add(name, salary, department)
+                        .then(() => {
+                            console.info("Added the Role: " + name);
+                            console.info("With the Salary: " + salary);
+                            console.info("To the Department: " + department);
+                        })
+                        .then(() => loadMainMenu());
+                });
+        });
+
+}; //  [ end : addRole ]
+
+
+
+//
+// #endregion Roles
+
+
+
+
 
 
 // Exit Application
