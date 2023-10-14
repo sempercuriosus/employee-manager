@@ -79,16 +79,16 @@ VALUES
     , ('Kelly', 'Kapoor', 6, 1)
 -- Quality Assurance
     -- Creed Bratton is the Quality Assurance Specialist
-    , ('Creed', 'Bratton', 7, NULL)
+    , ('Creed', 'Bratton', 7, 1)
 -- Supplier Relations
     -- Meredith Palmer is in Supplier Relations
-    , ('Meredith', 'Palmer', 8, NULL)
+    , ('Meredith', 'Palmer', 8, 1)
 -- Reception
     -- Erin Hannon is a Sales Representative
     , ('Erin', 'Hannon', 9, 1)
 -- Warehouse
     -- Darryl Philbin is a Warehouse Supervisor
-    , ('Darryl', 'Philbin', 10, NULL)
+    , ('Darryl', 'Philbin', 10, 1)
     , ('Roy', 'Anderson', 11, 18) 
     , ('Madge', 'Madsen', 11, 18) 
     , ('Lonny', 'Collins', 11, 18)
