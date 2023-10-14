@@ -1,6 +1,7 @@
 const mysql = require("mysql2");
+const defaultDB = "employees";
 
-const connection = mysql.createConnection({
+const connection_pool = mysql.createPool({
     // Host
     host: "localhost",
     // Your username
@@ -8,13 +9,29 @@ const connection = mysql.createConnection({
     // Your password
     password: "keys@33",
     // Default Database
-    database: "employees"
+    database: defaultDB,
+    connectionLimit: 15
 });
 
-connection.connect(function (connectionError) {
-    if (connectionError) {
-        throw connectionError;
-    }
+connection_pool.on("acquire", () => {
+    console.log("");
+    console.info("You have connected to the [ " + defaultDB + " ] database!");
 });
 
-module.exports = connection;
+connection_pool.on("release", () => {
+    console.log("");
+    console.info("Connection released.");
+});
+
+connection_pool.on("close", () => {
+    console.log("");
+    console.info("Connection closed.");
+});
+
+connection_pool.on("error", (error) => {
+    console.log("");
+    console.error("There was an error with the database connection.", "", "See the details");
+    console.error(error);
+});
+
+module.exports = connection_pool;
