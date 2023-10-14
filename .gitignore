@@ -1,0 +1,16 @@
+### SemperCuriosus' .gitignore 
+# Template - Mac 
+
+
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Added
+
+node_modules
+package-lock.json
+
+.vscode
+
