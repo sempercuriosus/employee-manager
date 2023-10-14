@@ -12,7 +12,6 @@ class Department {
     /**
     * Property List for Department Class
     * @property {} connection is the connection established with the target database.
-    * @property {} 
     */
     constructor () {
         this.connection = connection;
@@ -23,7 +22,7 @@ class Department {
 
     /**
      * @name view
-     * @returns a Promise Object containing ALL current departments
+     * @returns a Promise Object containing ALL current items
     */
     view () {
         console.info("[ view ] : called");
@@ -84,5 +83,5 @@ class Department {
 
 
 // export functions
-// **MUST** instantiate a new instance of the class on export... this will prevent the need to do this at **every** point in the program that Department is needed.
+// **MUST** instantiate a new instance of the class on export... this will prevent the need to do this at **every** point in the program that the Class is needed.
 module.exports = new Department(connection);
