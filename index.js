@@ -8,10 +8,9 @@ const logoText = "The Office Manager";
 const logoDescription = "Manage your office personel from the command line, simply.";
 
 // db query
-const db = require("./db");
-const select = require("./db/scripts/selects");
-const insert = require("./db/scripts/inserts");
-const update = require("./db/scripts/updates");
+const Select = require("./db/scripts/selects");
+const Insert = require("./db/scripts/inserts");
+const Update = require("./db/scripts/updates");
 
 init();
 
@@ -85,7 +84,8 @@ function mainMenu () {
         const selectedOption = res.menuSelection;
 
         if (selectedOption === "view_departments") {
-            viewDepartments();
+            console.info("Getting Departments...");
+            Select.viewDepartments();
         }
         else if (selectedOption === "view_roles") {
 
