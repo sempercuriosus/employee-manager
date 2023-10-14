@@ -23,8 +23,6 @@ class Role {
     * @returns a Promise Object containing ALL current items
    */
     view () {
-        console.info("[ view ] : called");
-
         // the point is to return a Promise object, from which, data can be extrapolated, but here we return a Promise back to the index.js for manipulation.
         const query = `
         SELECT id 
@@ -37,9 +35,17 @@ class Role {
         `;
 
         return this.connection.promise().query(query);
-
     }; //  [ end : view ]
 
+
+    add (name, salary, department_id) {
+        const query = `
+        INSERT INTO role (title, salary, department_id)
+        VALUES (?, ?, ?);
+        `;
+
+        return this.connection.promise().query(query, [ name, salary, department_id ]);
+    }
 
 };
 

@@ -106,16 +106,15 @@ function loadMainMenu () {
             else if (selectedOption === "view_departments") {
                 viewDepartments();
             }
+            else if (selectedOption === "create_employee") {
+
+            }
             else if (selectedOption === "create_department") {
                 addDepartment();
             }
             else if (selectedOption === "create_role") {
-
+                addRole();
             }
-            else if (selectedOption === "create_employee") {
-
-            }
-
             else if (selectedOption === "update_employee_role") {
 
             }
@@ -165,7 +164,6 @@ function viewDepartments () {
 /**
  * @name addDepartment
  * @description Asks for the new Department's name, attempts to update the database, and the loads the new changes
- * @returns Department Table With Updated Value
 */
 function addDepartment () {
     inq
@@ -177,8 +175,8 @@ function addDepartment () {
             }
         ])
         // insert
-        .then(res => {
-            let name = res.name;
+        .then(departmentName => {
+            let name = departmentName.name;
             console.log(name);
             Department.add(name)
                 // confirmation message
@@ -208,12 +206,15 @@ function addDepartment () {
 
 
 
+
+
+
 /**
  * @name viewRoles
  * @param {} 
  * @returns Role Table Values
 */
-let viewRoles = () => {
+function viewRoles () {
     Role.view()
         .then(([ resData ]) => {
             let roles = resData;
@@ -224,8 +225,48 @@ let viewRoles = () => {
 
 }; //  [ end : viewRoles ]
 
+
+
+/**
+ * @name addRole
+ * @description Asks for the new Role's name, attempts to update the database, and the loads the new changes
+*/
+function addRole () {
+    inq
+        // ask role name
+        .prompt([ {
+            name: "name"
+            , message: "Provide the new Role Name: "
+        }
+            , {
+            name: "salary"
+            , message: "Provide the new Role's Salary: "
+        }
+            , {
+            name: "department"
+            , message: "Provide the new Role's Department"
+        }
+        ])
+        .then(roleData => {
+            let { name, salary, department } = roleData;
+            console.log("name", name, "salary", salary, "department", department);
+            Role.add(name, salary, department)
+                .then(() => {
+                    console.info("Added the Role: " + name);
+                    console.info("With the Salary: " + salary);
+                    console.info("To the Department: " + department);
+                })
+                .then(() => loadMainMenu());
+        });
+
+}; //  [ end : addRole ]
+
+
+
 //
 // #endregion Roles
+
+
 
 
 
