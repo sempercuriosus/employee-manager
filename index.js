@@ -71,6 +71,7 @@ function mainMenu () {
             ]
         }
     ]).then(res => {
-        console.log(res);
+        const selectedOption = res.menuSelection;
+        console.log("You selected: ", selectedOption);
     });
 }; //  [ end : mainMenu ]
