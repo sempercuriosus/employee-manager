@@ -61,19 +61,19 @@ function loadMainMenu () {
                         , value: "view_departments"
                     }
                     , {
-                        name: "ADD - Department"
-                        , value: "create_department"
+                        name: "ADD - Employee"
+                        , value: "create_employee"
                     }
                     , {
                         name: "ADD - Role"
                         , value: "create_role"
                     }
                     , {
-                        name: "ADD - Employee"
-                        , value: "create_employee"
+                        name: "ADD - Department"
+                        , value: "create_department"
                     }
                     , {
-                        name: "UPDATE Employee Role"
+                        name: "UPDATE -  Employee Role"
                         , value: "update_employee_role"
                     }
                     // , {
@@ -88,7 +88,7 @@ function loadMainMenu () {
                     //     , value: "delete_employee"
                     // }
                     , {
-                        name: "EXIT - Program"
+                        name: "** EXIT Program **"
                         , value: "exit"
                     }
                 ]
