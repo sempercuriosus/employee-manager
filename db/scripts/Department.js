@@ -30,7 +30,7 @@ class Department {
 
         // the point is to return a Promise object, from which, data can be extrapolated, but here we return a Promise back to the index.js for manipulation.
         const query = `
-        SELECT id
+        SELECT id 
             , name
         FROM department
         ;

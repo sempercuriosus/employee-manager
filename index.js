@@ -82,9 +82,11 @@ function mainMenu () {
         if (selectedOption === "view_departments") {
             console.info("Getting the Departments...");
             Department.view()
-                .then(([ data ]) => {
-                    let departments = data;
-                    console.log("departments", departments);
+                .then(([ resData ]) => {
+                    let departments = resData;
+                    console.log("");
+                    console.log("Department List");
+                    console.table(departments);
                 });
         }
         else if (selectedOption === "view_roles") {
