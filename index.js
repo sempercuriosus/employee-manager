@@ -47,28 +47,30 @@ function mainMenu () {
             , choices: [
                 {
                     name: "View ALL Departments"
-                    , value: ""
+                    , value: "view_departments"
                 }
                 , {
                     name: "View ALL Roles"
-                    , value: ""
+                    , value: "view_roles"
                 }, {
                     name: "View ALL Employees"
-                    , value: ""
+                    , value: "view_employees"
                 }, {
                     name: "ADD Department"
-                    , value: ""
+                    , value: "create_department"
                 }, {
                     name: "ADD Role"
-                    , value: ""
+                    , value: "create_role"
                 }, {
                     name: "ADD Employee"
-                    , value: ""
+                    , value: "create_employee"
                 }, {
                     name: "UPDATE Employee Role"
-                    , value: ""
+                    , value: "update_employee_role"
                 }
             ]
         }
-    ]);
+    ]).then(res => {
+        console.log(res);
+    });
 }; //  [ end : mainMenu ]
