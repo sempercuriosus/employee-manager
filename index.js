@@ -155,6 +155,7 @@ function viewDepartments () {
         .then(([ resData ]) => {
             let departments = resData;
             console.log("");
+            console.log("DEPARTMENTS");
             console.table(departments);
         })
         .then(() => loadMainMenu());
@@ -219,6 +220,7 @@ function viewRoles () {
         .then(([ resData ]) => {
             let roles = resData;
             console.log("");
+            console.log("ROLES");
             console.table(roles);
         })
         .then(() => loadMainMenu());
@@ -232,13 +234,14 @@ function viewRoles () {
  * @description Asks for the new Role's name, attempts to update the database, and the loads the new changes
 */
 function addRole () {
-    Role.view()
+    Department.view()
         .then((resData) => {
-            // get a map of the existing departments to select from
+            // this is here instead of destructuring, just to remind me this is a thing too.
             let departments = resData[ 0 ];
-            console.log("depts", departments);
-            const list = departments.map(({ id, title }) => ({
-                name: id + " " + title
+            console.log(departments);
+            // get a map of the existing departments to select from
+            const list = departments.map(({ id, name: name }) => ({
+                name: name
                 , value: id
             }));
             inq
@@ -270,8 +273,6 @@ function addRole () {
                         .then(() => loadMainMenu());
                 });
         });
-
-
 
 }; //  [ end : addRole ]
 
