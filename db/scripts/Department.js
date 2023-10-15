@@ -24,7 +24,7 @@ class Department {
     //
 
     /**
-     * @name view
+     * @name view Lists all of the Departments found in the database
      * @returns a Promise Object containing ALL current items
     */
     view () {
