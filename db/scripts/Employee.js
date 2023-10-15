@@ -29,7 +29,7 @@ class Employee {
             , emp.first_name as 'First_Name'
             , emp.last_name as 'Last_Name'
             , d.name as 'Department'
-            , r.title as 'Employee_Name'
+            , r.title as 'Employee_Role'
             , r.salary as 'Employee_Salary'
         FROM employee emp 
         INNER JOIN role r ON r.id = emp.role_id
@@ -50,10 +50,10 @@ class Employee {
         //  because I was considering the addition of a boolean field in the employee table called "isManager"
         //  such that I can filter the list and not return ALL employees. 
         const query = `
-        SELECT emp.id 
-            , emp.first_name as 'FirstName'
-            , emp.last_name as 'LastName'
-            , r.title as 'Role'
+        SELECT emp.id as 'Employee_ID'
+        , emp.first_name as 'First_Name'
+        , emp.last_name as 'Last_Name'
+            , r.title as 'Employee_Role'
         FROM employee emp 
         INNER JOIN role r ON r.id = emp.role_id
         ORDER BY emp.last_name, emp.first_name

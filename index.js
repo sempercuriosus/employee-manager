@@ -182,7 +182,7 @@ function addDepartment () {
 
             Department.add(departmentName)
                 // confirmation message
-                .then(() => console.info("Added the Department:  " + departmentName))
+                .then(() => console.log("Added the Department:  " + departmentName), "")
                 // load menu
                 .then(() => loadMainMenu());
         })
@@ -266,9 +266,9 @@ function addRole () {
 
                     Role.add(name, salary, department)
                         .then(() => {
-                            console.info("Added the Role: " + name);
-                            console.info("With the Salary: " + salary);
-                            console.info("To the Department: " + department);
+                            console.log("Added the Role: " + name);
+                            console.log("With the Salary: " + salary);
+                            console.log("To the Department: " + department);
                         })
                         .then(() => loadMainMenu());
                 });
@@ -324,28 +324,28 @@ function viewEmployees () {
  * with a confirmation that the Employee was added.
 */
 function addEmployee () {
-    // get the new information on the employee
+    // get the new logrmation on the employee
     // first and last name
     inq
         .prompt([ {
-            "name": "first"
+            "name": "first_name"
             , "message": "Provide the Employee's First Name: "
         },
         {
-            "name": "last"
+            "name": "last_name"
             , "message": "Provide the Employee's Last Name: "
         }
         ])
         .then(resData => {
-            const firstName = resData.First_Name;
-            const lastName = resData.Last_Name;
+            const firstName = resData.first_name;
+            const lastName = resData.last_name;
 
             // role of employee
             // get the list of roles
             Role.view()
                 .then(([ resData ]) => {
                     let roles = resData;
-                    const roleList = roles.map(({ id: Role_ID, title: Role_Name }) => ({
+                    const roleList = roles.map(({ Role_ID, Role_Name }) => ({
                         "name": Role_Name
                         , "value": Role_ID
                     }));
@@ -366,9 +366,9 @@ function addEmployee () {
                             Employee.listManagers()
                                 .then(([ resData ]) => {
                                     let employees = resData;
-                                    const managerList = employees.map(({ id, FirstName, LastName, Role }) => ({
-                                        "name": FirstName + " " + LastName + " - " + Role
-                                        , "value": id
+                                    const managerList = employees.map(({ Employee_ID, First_Name, Last_Name, Employee_Role }) => ({
+                                        "name": First_Name + " " + Last_Name + " - " + Employee_Role
+                                        , "value": Employee_ID
                                     }));
 
                                     // adding a record allowing no one to be selected as the manager
@@ -385,14 +385,14 @@ function addEmployee () {
 
                                             }
                                         ])
-                                        // destructure the employee information and get ready to update the db with it
+                                        // destructure the employee logrmation and get ready to update the db with it
                                         .then((resData) => {
                                             const managerID = resData.manager;
 
                                             Employee.add(firstName, lastName, roleId, managerID);
                                         })
                                         .then(() => {
-                                            console.info("Added " + firstName + " " + lastName + " as an Employee");
+                                            console.log("Added " + firstName + " " + lastName + " as an Employee");
                                             console.log("");
                                         })
                                         .then(() => loadMainMenu());
@@ -414,7 +414,7 @@ function addEmployee () {
  * @returns - 
 */
 function updateRole () {
-    console.info("[ updateRole ] : called");
+    console.log("[ updateRole ] : called");
 
     // list employees
     Employee.view()
@@ -422,47 +422,45 @@ function updateRole () {
 
             let employees = resData;
             // map the employees
-            const employeeList = employees.map(({ id, FirstName, LastName, Role: CurrentRole }) => ({
-                "name": FirstName + " " + LastName + " - " + CurrentRole
-                , "value": id
-
+            const employeeList = employees.map(({ Employee_ID, First_Name, Last_Name, Employee_Role }) => ({
+                "name": First_Name + " " + Last_Name + " - " + Employee_Role
+                , "value": Employee_ID
             }));
 
             // prompt the list for selection
             inq
                 .prompt([ {
-                    "name": "employee" // this is getting passed into the next promise
+                    "name": "employee_id"
                     , "message": "Pick the Employee you wish to update."
                     , "type": "list"
                     , "choices": employeeList
                 } ])
                 .then((resData) => {
-                    let employeeID = resData.employee;
+                    let employeeID = resData.employee_id;
 
-                    console.log("UPDATING: ", employeeID);
                     // list roles
                     Role.view()
                         .then(([ resData ]) => {
                             let roles = resData;
 
                             // map roles
-                            const roleList = roles.map(({ id, title }) => ({
-                                "name": title
-                                , "value": id
+                            const roleList = roles.map(({ Role_ID, Role_Name }) => ({
+                                "name": Role_Name
+                                , "value": Role_ID
                             }));
 
                             inq
                                 .prompt([ {
-                                    "name": "role"
+                                    "name": "role_id"
                                     , "message": "Select the Role you are assigning"
                                     , "type": "list"
                                     , "choices": roleList
                                 } ])
                                 .then((resData) => {
-                                    const newRole = resData.role;
-                                    Employee.updateRole(employeeID, newRole);
+                                    const newRoleID = resData.role_id;
+                                    Employee.updateRole(employeeID, newRoleID);
                                 })
-                                .then(() => console.info("Updated Role"))
+                                .then(() => console.log("You have Updated the Employee's Role.", ""))
                                 .then(() => loadMainMenu());
                         });
                 });
