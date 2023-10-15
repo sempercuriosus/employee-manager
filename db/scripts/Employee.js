@@ -25,12 +25,12 @@ class Employee {
     view () {
         // the point is to return a Promise object, from which, data can be extrapolated, but here we return a Promise back to the index.js for manipulation.
         const query = `
-        SELECT emp.id 
-            , emp.first_name as 'FirstName'
-            , emp.last_name as 'LastName'
+        SELECT emp.id as 'Employee_ID'
+            , emp.first_name as 'First_Name'
+            , emp.last_name as 'Last_Name'
             , d.name as 'Department'
-            , r.title as 'Role'
-            , r.salary as 'Salary'
+            , r.title as 'Employee_Name'
+            , r.salary as 'Employee_Salary'
         FROM employee emp 
         INNER JOIN role r ON r.id = emp.role_id
         INNER JOIN department d ON d.id = r.department_id

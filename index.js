@@ -303,7 +303,6 @@ function viewEmployees () {
 
             const employees = resData;
             console.log("");
-            console.log("EMPLOYEES");
             console.table(employees);
         })
         .then(() => loadMainMenu());
@@ -330,25 +329,25 @@ function addEmployee () {
     inq
         .prompt([ {
             "name": "first"
-            , "message": "Provide the Employee's First Name"
+            , "message": "Provide the Employee's First Name: "
         },
         {
             "name": "last"
-            , "message": "Provide the Employee's Last Name"
+            , "message": "Provide the Employee's Last Name: "
         }
         ])
         .then(resData => {
-            const firstName = resData.first;
-            const lastName = resData.last;
+            const firstName = resData.First_Name;
+            const lastName = resData.Last_Name;
 
             // role of employee
             // get the list of roles
             Role.view()
                 .then(([ resData ]) => {
                     let roles = resData;
-                    const roleList = roles.map(({ id, title }) => ({
-                        "name": title
-                        , "value": id
+                    const roleList = roles.map(({ id: Role_ID, title: Role_Name }) => ({
+                        "name": Role_Name
+                        , "value": Role_ID
                     }));
                     // set the role for the new employee
                     inq
