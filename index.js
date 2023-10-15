@@ -77,15 +77,16 @@ function loadMainMenu () {
                         , value: "update_employee_role"
                     }
                     // , {
-                    //     name: "DELETE -  Department"
-                    //     , value: "delete_department"
+                    //     name: "DELETE - Employee"
+                    //     , value: "delete_employee"
                     // }
                     // , {
                     //     name: "DELETE - Role"
                     //     , value: "delete_role"
-                    // }, {
-                    //     name: "DELETE - Employee"
-                    //     , value: "delete_employee"
+                    // }
+                    // , {
+                    //     name: "DELETE -  Department"
+                    //     , value: "delete_department"
                     // }
                     , {
                         name: "** EXIT Program **"
@@ -314,13 +315,16 @@ function viewEmployees () {
 
 /**
  * @name addEmployee
- * @description Asks for the Employee's information
- * First Name, 
- * Last Name, 
- * Role, 
- * and Manager
- * then attempts to update the Database, 
- * and confirms the Employee was added.
+ * @description Adds a new Employee 
+ * 
+ * Asks for the following:
+ * - First Name
+ * - Last Name 
+ * - Role
+ * - Manager
+ * 
+ * The Employee is then added in the Database
+ * with a confirmation that the Employee was added.
 */
 function addEmployee () {
     // get the new information on the employee
@@ -395,13 +399,29 @@ function addEmployee () {
                                             console.log("");
                                         })
                                         .then(() => loadMainMenu());
-
-                                    // Employee.add();
                                 });// employee list end
                         });
                 });// role end
         });
 }; //  [ end : addEmployee ]
+
+
+
+/**
+ * @name updateRole
+ * @description updates an Employees current Role
+ * - Lists Employees to select from as the update target
+ * - Lists Roles for the new role
+ * Confirms the update by logging
+ * @param {} - 
+ * @returns - 
+*/
+function updateRole () {
+    console.info("[ updateRole ] : called");
+
+}; //  [ end : updateRole ]
+
+
 
 
 //
