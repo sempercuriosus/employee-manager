@@ -25,10 +25,10 @@ class Role {
     view () {
         // the point is to return a Promise object, from which, data can be extrapolated, but here we return a Promise back to the index.js for manipulation.
         const query = `
-        SELECT id 
-            , title
-            , department_id
-            , salary
+        SELECT id AS 'Role_ID'
+            , title AS 'Role_Name'
+            , department_id AS 'Department_ID'
+            , salary AS 'Role_Salary'
         FROM role
         ORDER BY id
         ;

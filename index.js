@@ -221,7 +221,6 @@ function viewRoles () {
         .then(([ resData ]) => {
             let roles = resData;
             console.log("");
-            console.log("ROLES");
             console.table(roles);
         })
         .then(() => loadMainMenu());
@@ -239,10 +238,10 @@ function addRole () {
         .then((resData) => {
             // this is here instead of destructuring, just to remind me this is a thing too.
             let departments = resData[ 0 ];
-            console.log(departments);
+
             // get a map of the existing departments to select from
-            const list = departments.map(({ id: Department_ID, Department_Name }) => ({
-                name: Department_ID
+            const departmentList = departments.map(({ Department_ID, Department_Name }) => ({
+                name: Department_Name
                 , value: Department_ID
             }));
             inq
@@ -259,7 +258,7 @@ function addRole () {
                     name: "department"
                     , type: "list"
                     , message: "Provide the new Role's Department"
-                    , choices: list
+                    , choices: departmentList
                 }
                 ])
                 .then(roleData => {
