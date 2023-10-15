@@ -8,7 +8,6 @@ const connection = require("../connection");
  * 
  * One can: 
  * - View Departments
- * - Update Departments
  * - Add Departments
  */
 class Department {

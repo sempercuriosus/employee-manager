@@ -8,7 +8,6 @@ const connection = require("../connection");
  * 
  * One can: 
  * - View Roles
- * - Update Roles
  * - Add Roles
  */
 class Role {

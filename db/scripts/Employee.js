@@ -3,19 +3,24 @@ const connection = require("../connection");
 
 
 /**
- * @name 
- * @classdesc 
+ * @name Employee
+ * @classdesc contains a constructor and several functions related to the Employee
+ * 
+ * One can: 
+ * - View Employees
+ * - Update Employees
+ * - Add Employees
  */
 class Employee {
     /**
-    * Property List for Role Class
+    * Property List for Employee Class
     * @property {} connection is the connection established with the target database.
     */
     constructor (connection) {
         this.connection = connection;
     };
 
-    // Function List in Role Class
+    // Function List in Employee Class
     //
 
     /**
@@ -63,8 +68,16 @@ class Employee {
         return this.connection.promise().query(query);
     }; //  [ end : view ]
 
+    /**
+     * @name add
+     * @description Insert new Employee to the list of current Employees.
+     * @param {} first_name Name of the Employee to be added
+     * @param {} last_name Name of the Employee to be added
+     * @param {} role_id Role the Employee has
+     * @param {} manager_id Employee reports to this person, may be null
+     * @returns 
+    */
     add (first_name, last_name, role_id, manager_id) {
-        // first name, last name, role, and manager
         const query = `
         INSERT INTO employee(first_name, last_name, role_id, manager_id)
         VALUES (?, ?, ?, ?)
@@ -74,14 +87,21 @@ class Employee {
         return this.connection.promise().query(query, [ first_name, last_name, role_id, manager_id ]);
     }
 
-    updateRole (employeeId, newRole) {
+    /**
+      * @name add
+      * @description Insert new Employee to the list of current Employees.
+      * @param {} employee_id Employee to be updated
+      * @param {} role_id NEW Role the Employee has
+      * @returns 
+    */
+    updateRole (employee_id, role_id) {
         const query = `
             UPDATE employee
             SET role_id = ?
             WHERE id = ?
         `;
 
-        return this.connection.promise().query(query, [ newRole, employeeId ]);
+        return this.connection.promise().query(query, [ role_id, employee_id ]);
     }
 
 
