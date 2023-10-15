@@ -157,7 +157,6 @@ function viewDepartments () {
         .then(([ resData ]) => {
             let departments = resData;
             console.log("");
-            console.log("DEPARTMENTS");
             console.table(departments);
         })
         .then(() => loadMainMenu());
@@ -178,12 +177,12 @@ function addDepartment () {
             }
         ])
         // insert
-        .then(departmentName => {
-            let name = departmentName.name;
-            console.log(name);
-            Department.add(name)
+        .then(resData => {
+            let departmentName = resData.name;
+
+            Department.add(departmentName)
                 // confirmation message
-                .then(() => console.info("Added the Department:  " + name))
+                .then(() => console.info("Added the Department:  " + departmentName))
                 // load menu
                 .then(() => loadMainMenu());
         })
@@ -242,9 +241,9 @@ function addRole () {
             let departments = resData[ 0 ];
             console.log(departments);
             // get a map of the existing departments to select from
-            const list = departments.map(({ id, name }) => ({
-                name: name
-                , value: id
+            const list = departments.map(({ id: Department_ID, Department_Name }) => ({
+                name: Department_ID
+                , value: Department_ID
             }));
             inq
                 // ask role name

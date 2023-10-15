@@ -29,8 +29,8 @@ class Department {
 
         // the point is to return a Promise object, from which, data can be extrapolated, but here we return a Promise back to the index.js for manipulation.
         const query = `
-        SELECT id 
-            , name
+        SELECT id as Department_ID
+            , name as Department_Name
         FROM department
         ORDER BY id
         ;
@@ -58,25 +58,6 @@ class Department {
         `;
 
         return this.connection.promise().query(query, toAdd);
-    };
-
-
-    /**
-    * @name remove
-    * @classdesc Removes a function from the database, by ID only
-    * @param {int} toRemove
-    * @returns 
-    */
-    remove (toRemove) {
-        // long desc
-        const query = `
-        DELETE FROM department
-        WHERE id = ?
-        ;
-        `;
-
-        return this.connection.promise().query(query, toRemove);
-
     };
 
 };
