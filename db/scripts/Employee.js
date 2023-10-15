@@ -46,7 +46,9 @@ class Employee {
      * @returns a Promise Object containing ALL current items
      */
     listManagers () {
-        // the point is to return a Promise object, from which, data can be extrapolated, but here we return a Promise back to the index.js for manipulation.
+        // reason I broke this out : 
+        //  because I was considering the addition of a boolean field in the employee table called "isManager"
+        //  such that I can filter the list and not return ALL employees. 
         const query = `
         SELECT emp.id 
             , emp.first_name as 'FirstName'
@@ -64,12 +66,19 @@ class Employee {
     add (first_name, last_name, role_id, manager_id) {
         // first name, last name, role, and manager
         const query = `
-        INSERT INTO EMPLOYEE(first_name, last_name, role_id, manager_id)
+        INSERT INTO employee(first_name, last_name, role_id, manager_id)
         VALUES (?, ?, ?, ?)
         ;
         `;
 
         return this.connection.promise().query(query, [ first_name, last_name, role_id, manager_id ]);
+    }
+
+    updateRole (newRole) {
+        const query = `
+        UPDATE employee
+        SET role_id = ?
+        ;`;
     }
 
 };
