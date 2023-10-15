@@ -6,7 +6,9 @@ const connection = require("../connection");
  * @name Department
  * @classdesc contains a constructor and several functions related to the Department
  * 
- * One can View, Update, Add new departments
+ * One can: 
+ * - View Departments
+ * - Add Departments
  */
 class Department {
     /**
@@ -21,7 +23,7 @@ class Department {
     //
 
     /**
-     * @name view
+     * @name view Lists all of the Departments found in the database
      * @returns a Promise Object containing ALL current items
     */
     view () {
@@ -29,8 +31,8 @@ class Department {
 
         // the point is to return a Promise object, from which, data can be extrapolated, but here we return a Promise back to the index.js for manipulation.
         const query = `
-        SELECT id 
-            , name
+        SELECT id as Department_ID
+            , name as Department_Name
         FROM department
         ORDER BY id
         ;
@@ -43,9 +45,8 @@ class Department {
 
     /**
     * @name add
-    * @classdesc Insert new Department to the list of available options.
-    * toAdd value be unique
-    * @param toAdd
+    * @description Insert new Department to the list of available options.
+    * @param {any} toAdd value to be added, must be unique
     * @returns 
     */
     add (toAdd) {
@@ -58,25 +59,6 @@ class Department {
         `;
 
         return this.connection.promise().query(query, toAdd);
-    };
-
-
-    /**
-    * @name remove
-    * @classdesc Removes a function from the database, by ID only
-    * @param {int} toRemove
-    * @returns 
-    */
-    remove (toRemove) {
-        // long desc
-        const query = `
-        DELETE FROM department
-        WHERE id = ?
-        ;
-        `;
-
-        return this.connection.promise().query(query, toRemove);
-
     };
 
 };
