@@ -74,12 +74,16 @@ class Employee {
         return this.connection.promise().query(query, [ first_name, last_name, role_id, manager_id ]);
     }
 
-    updateRole (newRole) {
+    updateRole (employeeId, newRole) {
         const query = `
-        UPDATE employee
-        SET role_id = ?
-        ;`;
+            UPDATE employee
+            SET role_id = ?
+            WHERE id = ?
+        `;
+
+        return this.connection.promise().query(query, [ newRole, employeeId ]);
     }
+
 
 };
 
