@@ -6,7 +6,10 @@ const connection = require("../connection");
  * @name Department
  * @classdesc contains a constructor and several functions related to the Department
  * 
- * One can View, Update, Add new departments
+ * One can: 
+ * - View Departments
+ * - Update Departments
+ * - Add Departments
  */
 class Department {
     /**
@@ -43,9 +46,8 @@ class Department {
 
     /**
     * @name add
-    * @classdesc Insert new Department to the list of available options.
-    * toAdd value be unique
-    * @param toAdd
+    * @description Insert new Department to the list of available options.
+    * @param {any} toAdd value to be added, must be unique
     * @returns 
     */
     add (toAdd) {
