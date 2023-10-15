@@ -77,15 +77,16 @@ function loadMainMenu () {
                         , value: "update_employee_role"
                     }
                     // , {
-                    //     name: "DELETE -  Department"
-                    //     , value: "delete_department"
+                    //     name: "DELETE - Employee"
+                    //     , value: "delete_employee"
                     // }
                     // , {
                     //     name: "DELETE - Role"
                     //     , value: "delete_role"
-                    // }, {
-                    //     name: "DELETE - Employee"
-                    //     , value: "delete_employee"
+                    // }
+                    // , {
+                    //     name: "DELETE -  Department"
+                    //     , value: "delete_department"
                     // }
                     , {
                         name: "** EXIT Program **"
@@ -117,7 +118,7 @@ function loadMainMenu () {
                 addRole();
             }
             else if (selectedOption === "update_employee_role") {
-
+                updateRole();
             }
             else if (selectedOption === "exit") {
                 exit();
@@ -314,13 +315,16 @@ function viewEmployees () {
 
 /**
  * @name addEmployee
- * @description Asks for the Employee's information
- * First Name, 
- * Last Name, 
- * Role, 
- * and Manager
- * then attempts to update the Database, 
- * and confirms the Employee was added.
+ * @description Adds a new Employee 
+ * 
+ * Asks for the following:
+ * - First Name
+ * - Last Name 
+ * - Role
+ * - Manager
+ * 
+ * The Employee is then added in the Database
+ * with a confirmation that the Employee was added.
 */
 function addEmployee () {
     // get the new information on the employee
@@ -395,13 +399,81 @@ function addEmployee () {
                                             console.log("");
                                         })
                                         .then(() => loadMainMenu());
-
-                                    // Employee.add();
                                 });// employee list end
                         });
                 });// role end
         });
 }; //  [ end : addEmployee ]
+
+
+
+/**
+ * @name updateRole
+ * @description updates an Employees current Role
+ * - Lists Employees to select from as the update target
+ * - Lists Roles for the new role
+ * Confirms the update by logging
+ * @param {} - 
+ * @returns - 
+*/
+function updateRole () {
+    console.info("[ updateRole ] : called");
+
+    // list employees
+    Employee.view()
+        .then(([ resData ]) => {
+
+            let employees = resData;
+            // map the employees
+            const employeeList = employees.map(({ id, FirstName, LastName, Role: CurrentRole }) => ({
+                "name": FirstName + " " + LastName + " - " + CurrentRole
+                , "value": id
+
+            }));
+
+            // prompt the list for selection
+            inq
+                .prompt([ {
+                    "name": "employee" // this is getting passed into the next promise
+                    , "message": "Pick the Employee you wish to update."
+                    , "type": "list"
+                    , "choices": employeeList
+                } ])
+                .then((resData) => {
+                    let employeeID = resData.employee;
+
+                    console.log("UPDATING: ", employeeID);
+                    // list roles
+                    Role.view()
+                        .then(([ resData ]) => {
+                            let roles = resData;
+
+                            // map roles
+                            const roleList = roles.map(({ id, title }) => ({
+                                "name": title
+                                , "value": id
+                            }));
+
+                            inq
+                                .prompt([ {
+                                    "name": "role"
+                                    , "message": "Select the Role you are assigning"
+                                    , "type": "list"
+                                    , "choices": roleList
+                                } ])
+                                .then((resData) => {
+                                    const newRole = resData.role;
+                                    Employee.updateRole(employeeID, newRole);
+                                })
+                                .then(() => console.info("Updated Role"))
+                                .then(() => loadMainMenu());
+                        });
+                });
+        });
+
+}; //  [ end : updateRole ]
+
+
 
 
 //
