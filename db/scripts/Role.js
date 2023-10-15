@@ -3,8 +3,13 @@ const connection = require("../connection");
 
 
 /**
- * @name 
- * @classdesc 
+ * @name Role
+ * @classdesc contains a constructor and several functions related to the Role
+ * 
+ * One can: 
+ * - View Roles
+ * - Update Roles
+ * - Add Roles
  */
 class Role {
     /**
@@ -19,7 +24,7 @@ class Role {
     //
 
     /**
-    * @name view
+    * @name view Lists all of the Roles found in the database
     * @returns a Promise Object containing ALL current items
    */
     view () {
@@ -38,6 +43,14 @@ class Role {
     }; //  [ end : view ]
 
 
+    /**
+    * @name add
+    * @description Insert new Role to the list of available options.
+    * @param {} name value to be added, must be unique
+    * @param {} salary the amount of money this Role is to be paid
+    * @param {} department_id the department to which the Role will belong
+    * @returns 
+    */
     add (name, salary, department_id) {
         const query = `
         INSERT INTO role (title, salary, department_id)
